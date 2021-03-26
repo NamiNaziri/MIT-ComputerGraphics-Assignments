@@ -45,6 +45,8 @@ public:
 	// 1.1. Implement this method with a recursive helper to draw a sphere at each joint.
 	void drawJoints( );
 
+	void drawJointsHelper(Joint* joint);
+
 	// 1.2. Implement this method a recursive helper to draw a box between each pair of joints
 	void drawSkeleton( );
 

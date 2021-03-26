@@ -43,11 +43,43 @@ void SkeletalModel::loadSkeleton( const char* filename )
 {
 	// Load the skeleton from file here.
 
+	string line;
+	ifstream myfile(filename);
+	Vector3f JointsTranslation;
+	int ParrentIndex;
+	if (myfile)  // same as: if (myfile.good())
+	{
+		while (getline(myfile, line))  // same as: while (getline( myfile, line ).good())
+		{
+			stringstream ss(line);
+
+			ss >> JointsTranslation.x();
+			ss >> JointsTranslation.y();
+			ss >> JointsTranslation.z();
+			ss >> ParrentIndex;
+
+			Joint* joint = new Joint;
+			joint->transform = Matrix4f::translation(JointsTranslation);
+
+			m_joints.push_back(joint);
+			if (ParrentIndex == -1)
+			{
+				m_rootJoint = joint;
+			}
+			else
+			{
+				m_joints[ParrentIndex]->children.push_back(joint);
+			}
+
+		}
+		myfile.close();
+	}
+
 }
 
 void SkeletalModel::drawJoints( )
 {
-	
+	drawJointsHelper(m_rootJoint);
 	// Draw a sphere at each joint. You will need to add a recursive helper function to traverse the joint hierarchy.
 	//
 	// We recommend using glutSolidSphere( 0.025f, 12, 12 )
@@ -57,6 +89,19 @@ void SkeletalModel::drawJoints( )
 	// (glPushMatrix, glPopMatrix, glMultMatrix).
 	// You should use your MatrixStack class
 	// and use glLoadMatrix() before your drawing call.
+}
+
+void SkeletalModel::drawJointsHelper(Joint* joint)
+{
+	m_matrixStack.push(joint->transform);
+	
+	for (int i = 0; i < joint->children.size(); i++)
+	{
+		drawJointsHelper(joint->children[i]);
+	}
+	glLoadMatrixf(m_matrixStack.top());
+	glutSolidSphere(0.025f, 12, 12);
+	m_matrixStack.pop();
 }
 
 void SkeletalModel::drawSkeleton( )
