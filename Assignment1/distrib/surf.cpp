@@ -29,7 +29,33 @@ Surface makeSurfRev(const Curve &profile, unsigned steps)
         exit(0);
     }
 
-    // TODO: Here you should build the surface.  See surf.h for details.
+
+
+    for (unsigned i = 0; i < steps; i++)
+    {
+        float t = 2.0f * M_PI * float(i) / steps;
+
+        
+        for (unsigned j = 0; j < profile.size(); j++)
+        {
+            surface.VV.push_back(Matrix3f::rotateY(t) * profile[j].V );
+            surface.VN.push_back(( Matrix3f::rotateY(t) * profile[j].N).normalized() * -1 );
+            if (i != 0 && j != profile.size() - 1)
+            {
+                surface.VF.push_back(Tup3u((i * profile.size()) + j, ((i * profile.size()) + j - profile.size()), (i * profile.size() + j + 1) - profile.size()));
+				surface.VF.push_back(Tup3u((i * profile.size()) + j, (i * profile.size() + j + 1) - profile.size(), (i * profile.size()) + j + 1));
+
+            }
+            if (i == steps - 1 && j != profile.size() - 1)
+            {
+                surface.VF.push_back(Tup3u(j, i * profile.size() + j, i * profile.size() + j + 1));
+                surface.VF.push_back(Tup3u(j, i * profile.size() + j + 1, j+1));
+            }
+
+        }
+
+
+    }
 
     cerr << "\t>>> makeSurfRev called (but not implemented).\n\t>>> Returning empty surface." << endl;
  
@@ -44,6 +70,39 @@ Surface makeGenCyl(const Curve &profile, const Curve &sweep )
     {
         cerr << "genCyl profile curve must be flat on xy plane." << endl;
         exit(0);
+    }
+
+    
+    for (unsigned i = 0; i < sweep.size(); i++)
+    {
+        for (unsigned j = 0; j < profile.size(); j++)
+        {
+			Matrix4f sweepMat;
+			Matrix3f sweepMatNormal;
+			sweepMat.setCol(0, Vector4f(sweep[i].N, 0));
+			sweepMat.setCol(1, Vector4f(sweep[i].B, 0));
+			sweepMat.setCol(2, Vector4f(sweep[i].T, 0));
+			sweepMat.setCol(3, Vector4f(sweep[i].V, 1));
+            sweepMatNormal = sweepMat.getSubmatrix3x3(0, 0).inverse().transposed();
+
+            surface.VV.push_back((sweepMat *  Vector4f(profile[j].V, 1)).xyz() ) ;
+            surface.VN.push_back((sweepMatNormal * profile[j].N ).normalized() * -1);
+
+			 if (i != 0 && j != profile.size() - 1)
+			{
+				surface.VF.push_back(Tup3u((i * profile.size()) + j, ((i * profile.size()) + j - profile.size()), (i * profile.size() + j + 1) - profile.size()));
+				surface.VF.push_back(Tup3u((i * profile.size()) + j, (i * profile.size() + j + 1) - profile.size(), (i * profile.size()) + j + 1));
+
+			}
+			if (i == sweep.size() - 1 && j != profile.size() - 1)
+			{
+				surface.VF.push_back(Tup3u(j, i * profile.size() + j, i * profile.size() + j + 1));
+				surface.VF.push_back(Tup3u(j, i * profile.size() + j + 1, j + 1));
+			}
+
+
+
+        }
     }
 
     // TODO: Here you should build the surface.  See surf.h for details.

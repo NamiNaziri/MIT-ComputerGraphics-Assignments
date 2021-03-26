@@ -431,6 +431,8 @@ namespace
 // Set up OpenGL, define the callbacks and start the main loop
 int main( int argc, char* argv[] )
 {
+    
+
     // Load in from standard input
     loadObjects(argc, argv);
 
