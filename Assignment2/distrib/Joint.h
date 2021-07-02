@@ -6,6 +6,7 @@
 
 struct Joint
 {
+	
 	Matrix4f transform; // transform relative to its parent
 	std::vector< Joint* > children; // list of children
 

@@ -60,7 +60,6 @@ void SkeletalModel::loadSkeleton( const char* filename )
 
 			Joint* joint = new Joint;
 			joint->transform = Matrix4f::translation(JointsTranslation);
-
 			m_joints.push_back(joint);
 			if (ParrentIndex == -1)
 			{
@@ -138,7 +137,7 @@ void SkeletalModel::drawSkeletonHelper(Joint* joint)
 		
 	
 		m_matrixStack.push(m_BoxTransform);
-		m_BoxTransform.print();
+		//m_BoxTransform.print();
 		glLoadMatrixf(m_matrixStack.top());
 		glutSolidCube(1.0f);
 		m_matrixStack.pop();
@@ -151,6 +150,11 @@ void SkeletalModel::drawSkeletonHelper(Joint* joint)
 void SkeletalModel::setJointTransform(int jointIndex, float rX, float rY, float rZ)
 {
 	// Set the rotation part of the joint's transformation matrix based on the passed in Euler angles.
+	Matrix3f RotationMat = (Matrix4f::rotateX(rX) * Matrix4f::rotateY(rY) * Matrix4f::rotateZ(rZ)).getSubmatrix3x3(0, 0);
+	
+	m_joints[jointIndex]->transform.setSubmatrix3x3(0, 0, RotationMat);
+
+
 }
 
 
