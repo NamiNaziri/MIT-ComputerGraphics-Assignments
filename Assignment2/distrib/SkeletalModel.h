@@ -50,6 +50,8 @@ public:
 	// 1.2. Implement this method a recursive helper to draw a box between each pair of joints
 	void drawSkeleton( );
 
+	void drawSkeletonHelper(Joint* joint);
+
 	// 1.3. Implement this method to handle changes to your skeleton given
 	// changes in the slider values
 	void setJointTransform( int jointIndex, float rX, float rY, float rZ );

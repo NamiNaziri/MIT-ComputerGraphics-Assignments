@@ -79,6 +79,8 @@ void SkeletalModel::loadSkeleton( const char* filename )
 
 void SkeletalModel::drawJoints( )
 {
+
+	
 	drawJointsHelper(m_rootJoint);
 	// Draw a sphere at each joint. You will need to add a recursive helper function to traverse the joint hierarchy.
 	//
@@ -93,20 +95,57 @@ void SkeletalModel::drawJoints( )
 
 void SkeletalModel::drawJointsHelper(Joint* joint)
 {
-	m_matrixStack.push(joint->transform);
-	
-	for (int i = 0; i < joint->children.size(); i++)
-	{
-		drawJointsHelper(joint->children[i]);
-	}
+	m_matrixStack.push(joint->transform  );
 	glLoadMatrixf(m_matrixStack.top());
 	glutSolidSphere(0.025f, 12, 12);
+	for (auto Child : joint->children)
+	{
+		drawJointsHelper(Child);
+	}
+
+
 	m_matrixStack.pop();
 }
 
 void SkeletalModel::drawSkeleton( )
 {
+	drawSkeletonHelper(m_rootJoint);
 	// Draw boxes between the joints. You will need to add a recursive helper function to traverse the joint hierarchy.
+}
+
+void SkeletalModel::drawSkeletonHelper(Joint* joint)
+{
+	m_matrixStack.push(joint->transform);
+	Matrix4f m_BoxTransform = Matrix4f::identity();
+	for (auto Child : joint->children)
+	{
+		m_BoxTransform = Matrix4f::identity();
+		
+		const float DistanceToNextChildJoint = Child->transform.getCol(3).xyz().abs();
+		
+		
+
+		
+		Vector3f ZRotation = (Child->transform.getCol(3).xyz()).normalized();
+		Vector3f YRotation = Vector3f::cross(ZRotation, Vector3f(0, 0, 1)).normalized();
+		Vector3f XRotation = Vector3f::cross(YRotation, ZRotation).normalized();
+
+		m_BoxTransform = m_BoxTransform * Matrix4f::rotation(Quat4f::fromRotatedBasis(XRotation, YRotation, ZRotation));
+
+		m_BoxTransform = m_BoxTransform * Matrix4f::scaling(0.05, 0.05, DistanceToNextChildJoint);
+
+		m_BoxTransform = m_BoxTransform * Matrix4f::translation(0, 0, 0.5);
+		
+	
+		m_matrixStack.push(m_BoxTransform);
+		m_BoxTransform.print();
+		glLoadMatrixf(m_matrixStack.top());
+		glutSolidCube(1.0f);
+		m_matrixStack.pop();
+		drawSkeletonHelper(Child);
+	}
+
+	m_matrixStack.pop();
 }
 
 void SkeletalModel::setJointTransform(int jointIndex, float rX, float rY, float rZ)

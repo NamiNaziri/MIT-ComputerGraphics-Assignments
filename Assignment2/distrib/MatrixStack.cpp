@@ -9,10 +9,9 @@ MatrixStack::MatrixStack()
 void MatrixStack::clear()
 {
 	// Revert to just containing the identity matrix.
-	while (m_matrices.size() != size_t(1))
-	{
-		m_matrices.pop_back();
-	}
+	m_matrices.clear();
+	m_matrices.push_back(Matrix4f::identity());
+
 }
 
 Matrix4f MatrixStack::top()
