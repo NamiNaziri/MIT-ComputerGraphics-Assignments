@@ -78,9 +78,6 @@ void SkeletalModel::loadSkeleton( const char* filename )
 
 void SkeletalModel::drawJoints( )
 {
-
-	
-	drawJointsHelper(m_rootJoint);
 	// Draw a sphere at each joint. You will need to add a recursive helper function to traverse the joint hierarchy.
 	//
 	// We recommend using glutSolidSphere( 0.025f, 12, 12 )
@@ -90,6 +87,8 @@ void SkeletalModel::drawJoints( )
 	// (glPushMatrix, glPopMatrix, glMultMatrix).
 	// You should use your MatrixStack class
 	// and use glLoadMatrix() before your drawing call.
+	drawJointsHelper(m_rootJoint);
+	
 }
 
 void SkeletalModel::drawJointsHelper(Joint* joint)
@@ -102,14 +101,13 @@ void SkeletalModel::drawJointsHelper(Joint* joint)
 		drawJointsHelper(Child);
 	}
 
-
 	m_matrixStack.pop();
 }
 
 void SkeletalModel::drawSkeleton( )
 {
-	drawSkeletonHelper(m_rootJoint);
 	// Draw boxes between the joints. You will need to add a recursive helper function to traverse the joint hierarchy.
+	drawSkeletonHelper(m_rootJoint);
 }
 
 void SkeletalModel::drawSkeletonHelper(Joint* joint)
@@ -125,9 +123,9 @@ void SkeletalModel::drawSkeletonHelper(Joint* joint)
 		
 
 		
-		Vector3f ZRotation = (Child->transform.getCol(3).xyz()).normalized();
-		Vector3f YRotation = Vector3f::cross(ZRotation, Vector3f(0, 0, 1)).normalized();
-		Vector3f XRotation = Vector3f::cross(YRotation, ZRotation).normalized();
+		const Vector3f ZRotation = (Child->transform.getCol(3).xyz()).normalized();
+		const Vector3f YRotation = Vector3f::cross(ZRotation, Vector3f(0, 0, 1)).normalized();
+		const Vector3f XRotation = Vector3f::cross(YRotation, ZRotation).normalized();
 
 		m_BoxTransform = m_BoxTransform * Matrix4f::rotation(Quat4f::fromRotatedBasis(XRotation, YRotation, ZRotation));
 
@@ -150,10 +148,8 @@ void SkeletalModel::drawSkeletonHelper(Joint* joint)
 void SkeletalModel::setJointTransform(int jointIndex, float rX, float rY, float rZ)
 {
 	// Set the rotation part of the joint's transformation matrix based on the passed in Euler angles.
-	Matrix3f RotationMat = (Matrix4f::rotateX(rX) * Matrix4f::rotateY(rY) * Matrix4f::rotateZ(rZ)).getSubmatrix3x3(0, 0);
-	
+	const Matrix3f RotationMat = (Matrix4f::rotateX(rX) * Matrix4f::rotateY(rY) * Matrix4f::rotateZ(rZ)).getSubmatrix3x3(0, 0);
 	m_joints[jointIndex]->transform.setSubmatrix3x3(0, 0, RotationMat);
-
 
 }
 
@@ -168,6 +164,24 @@ void SkeletalModel::computeBindWorldToJointTransforms()
 	//
 	// This method should update each joint's bindWorldToJointTransform.
 	// You will need to add a recursive helper function to traverse the joint hierarchy.
+	m_matrixStack.clear();
+	
+	bindWorldToJointTransformsHelper(m_rootJoint);
+	
+}
+
+void SkeletalModel::bindWorldToJointTransformsHelper(Joint* joint)
+{
+
+	
+	m_matrixStack.push(joint->transform);
+	joint->bindWorldToJointTransform = m_matrixStack.top().inverse();
+	for (auto Child : joint->children)
+	{
+		bindWorldToJointTransformsHelper(Child);
+	}
+
+	m_matrixStack.pop();
 }
 
 void SkeletalModel::updateCurrentJointToWorldTransforms()
@@ -180,6 +194,20 @@ void SkeletalModel::updateCurrentJointToWorldTransforms()
 	//
 	// This method should update each joint's bindWorldToJointTransform.
 	// You will need to add a recursive helper function to traverse the joint hierarchy.
+	m_matrixStack.clear();
+	updateCurrentJointToWorldTransformsHelper(m_rootJoint);
+}
+
+void SkeletalModel::updateCurrentJointToWorldTransformsHelper(Joint* joint)
+{
+	m_matrixStack.push(joint->transform);
+	joint->currentJointToWorldTransform = m_matrixStack.top();
+	for (auto Child : joint->children)
+	{
+		updateCurrentJointToWorldTransformsHelper(Child);
+	}
+
+	m_matrixStack.pop();
 }
 
 void SkeletalModel::updateMesh()
@@ -189,5 +217,22 @@ void SkeletalModel::updateMesh()
 	// given the current state of the skeleton.
 	// You will need both the bind pose world --> joint transforms.
 	// and the current joint --> world transforms.
+
+	for(size_t i = 0 ; i <  m_mesh.currentVertices.size() ; i++) // for each vertex
+	{
+		//get per bone average
+		Vector3f newCurrentVertex = Vector3f::ZERO;
+
+		for(size_t j = 0 ; j < m_mesh.attachments[i].size() ; j++ )//j goes up to joints count
+		{
+			float weight = m_mesh.attachments[i][j]; //weight of joint j
+
+			Vector4f WorldToBindBoneTransform = m_joints[j]->bindWorldToJointTransform * Vector4f(m_mesh.bindVertices[i], 1.f);
+			Vector4f BindBoneTransformToWorld = m_joints[j]->currentJointToWorldTransform * WorldToBindBoneTransform;
+			
+			newCurrentVertex += (weight * (BindBoneTransformToWorld.xyz()));
+		}
+		m_mesh.currentVertices[i] = newCurrentVertex;
+	}
 }
 
