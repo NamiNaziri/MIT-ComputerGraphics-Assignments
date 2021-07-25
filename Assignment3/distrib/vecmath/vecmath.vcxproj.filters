@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\Matrix2f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\Matrix3f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\Matrix4f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\Quat4f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\Vector2f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\Vector3f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\Vector4f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\Matrix2f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\Matrix3f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\Matrix4f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\Quat4f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\Vector2f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\Vector3f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\Vector4f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\include\vecmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\vecmath\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{434C015E-F7B5-3CE6-A87B-1DF1C4A50708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{BCC07997-98D5-3520-B6BD-70547D7FCA21}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

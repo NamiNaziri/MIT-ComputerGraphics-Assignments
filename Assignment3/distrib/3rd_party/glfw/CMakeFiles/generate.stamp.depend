@@ -1,0 +1,17 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.19/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
+C:/Program Files/CMake/share/cmake-3.19/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/CheckIncludeFile.c.in
+C:/Program Files/CMake/share/cmake-3.19/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/CheckLibraryExists.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/FindThreads.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/Internal/CheckSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.19/Modules/WriteBasicConfigVersionFile.cmake
+C:/Users/N/Desktop/tictactoe/Test/assn3/starter3/3rd_party/glfw/CMake/modules/FindVulkan.cmake
+C:/Users/N/Desktop/tictactoe/Test/assn3/starter3/3rd_party/glfw/CMakeLists.txt
+C:/Users/N/Desktop/tictactoe/Test/assn3/starter3/3rd_party/glfw/src/glfw3.pc.in
+C:/Users/N/Desktop/tictactoe/Test/assn3/starter3/3rd_party/glfw/src/glfw3Config.cmake.in
+C:/Users/N/Desktop/tictactoe/Test/assn3/starter3/3rd_party/glfw/src/glfw_config.h.in

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\3rd_party\glew\src\glew.c">
+      <Filter>GLEW</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\starter3_util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\vertexrecorder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\clothsystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\timestepper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\particlesystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\pendulumsystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\simplesystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\gl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\starter3_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\vertexrecorder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\clothsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\timestepper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\particlesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\pendulumsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\src\simplesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\N\Desktop\tictactoe\Test\assn3\starter3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GLEW">
+      <UniqueIdentifier>{756492B2-5202-3956-AD7D-160444A97786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{434C015E-F7B5-3CE6-A87B-1DF1C4A50708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{BCC07997-98D5-3520-B6BD-70547D7FCA21}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
