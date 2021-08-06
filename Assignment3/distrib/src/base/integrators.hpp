@@ -2,6 +2,8 @@
 
 class ParticleSystem;
 
+void CheckTimer(ParticleSystem& ps, std::vector<float>& currentTime,float step, int particleIndex);
+
 void eulerStep(ParticleSystem& ps, float step);
 
 void trapezoidStep(ParticleSystem& ps, float step);

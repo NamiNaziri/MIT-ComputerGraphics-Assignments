@@ -54,7 +54,7 @@ public:
     static inline F32   ticksToSecs     (S64 ticks);
 
 private:
-    inline S64          getElapsedTicks (void);                 // return time since start, start if unstarted
+    inline S64          getElapsedTicks (void);                 // return time_ since start, start if unstarted
 
 private:
     static F64      s_ticksToSecsCoef;

@@ -19,6 +19,7 @@
 // Eigen supports a multitude of solvers, SparseLU is probably the best fit for us since our
 // problems are sparse but not necessarily symmetric or positive definite.
 
+
 typedef std::vector<FW::Vec3f> State;
 typedef std::vector<FW::Vec3f> Points;
 typedef std::vector<FW::Vec3f> Lines;
@@ -33,18 +34,24 @@ struct Spring {
 
 class ParticleSystem {
 public:
-	virtual					~ParticleSystem() {};
-	virtual State			evalF(const State&) const = 0;
+	virtual						~ParticleSystem() {};
+	virtual State				evalF(const State&) const = 0;
 #ifdef EIGEN_SPARSECORE_MODULE_H
-	virtual	void			evalJ(const State&, SparseMatrix& result, bool initial) const = 0;
+	virtual	void				evalJ(const State&, SparseMatrix& result, bool initial) const = 0;
 #endif
-	virtual void			reset() = 0;
-	const State&			state() { return current_state_; }
-	void					set_state(State s) { current_state_ = s; }
-	virtual Points			getPoints() { return Points(); }
-	virtual Lines			getLines() { return Lines(); }
+	virtual void				reset() = 0;
+	virtual void				resetParticle(int particleIndex) {};
+	const State&				state() { return current_state_; }
+	void						set_state(State s) { current_state_ = s; }
+	bool						isTimeDependent() { return timeDependent; }
+	const std::vector<float>&	time() { return time_; };
+	void						set_time(std::vector<float> t) { time_ = t; }
+	virtual Points				getPoints() { return Points(); }
+	virtual Lines				getLines() { return Lines(); }
 protected:
-	State					current_state_;
+	State						current_state_;
+	std::vector<float>			time_;
+	bool						timeDependent;
 };
 
 class SimpleSystem : public ParticleSystem {
@@ -130,6 +137,27 @@ public:
 private:
 	unsigned				x_, y_;
 	std::vector<Spring>		springs_;
+};
+
+
+class SprinklerSystem : public ParticleSystem
+{
+public:
+	SprinklerSystem(unsigned n) : n_(n) { reset();}
+
+	State					evalF(const State&) const override;
+	void					reset() override;
+	Points					getPoints() override;
+	void					resetParticle(int particleIndex) override;
+
+	inline int						Pos(int particleIndex) const { return particleIndex * 2; }
+	inline int						Vel(int particleIndex) const { return (particleIndex * 2) + 1; }
+
+private:
+	unsigned				n_;
+	const int				spread = 20;
+	const int				gravityMultiplier = 40;
+	
 };
 
 class FluidSystem : public ParticleSystem {

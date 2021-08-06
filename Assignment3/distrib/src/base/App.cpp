@@ -44,6 +44,7 @@ App::App(void)
 	spring_system_(),
 	pendulum_system_(10),
 	cloth_system_(10, 10),
+	sprinkler_system_(200),
 	initial_implicit_(false)
 {
 	static_assert(is_standard_layout<Vertex>::value, "struct Vertex must be standard layout to use offsetof");
@@ -54,6 +55,7 @@ App::App(void)
 	common_ctrl_.addToggle((S32*)&ps_type_, SPRING_SYSTEM, FW_KEY_2, "R2 Spring system (2)", &system_changed_);
 	common_ctrl_.addToggle((S32*)&ps_type_, PENDULUM_SYSTEM, FW_KEY_3, "R4 Pendulum system (3)", &system_changed_);
 	common_ctrl_.addToggle((S32*)&ps_type_, CLOTH_SYSTEM, FW_KEY_4, "R5 Cloth system (4)", &system_changed_);
+	common_ctrl_.addToggle((S32*)&ps_type_, SPRINKLER_SYSTEM, FW_KEY_S, "Extra Sprinkler system (5)", &system_changed_);
 #ifdef COMPUTE_CLOTH_MODULE
 	common_ctrl_.addToggle((S32*)&ps_type_, COMPUTE_CLOTH, FW_KEY_NONE, "EXTRA: Compute cloth", &system_changed_);
 #endif
@@ -108,6 +110,8 @@ bool App::handleEvent(const Window::Event& ev) {
 			ps_ = &pendulum_system_; break;
 		case CLOTH_SYSTEM:
 			ps_ = &cloth_system_; break;
+		case SPRINKLER_SYSTEM:
+			ps_ = &sprinkler_system_; break;
 #ifdef COMPUTE_CLOTH_MODULE
 		case COMPUTE_CLOTH:
 			integrator_ = COMPUTE_CLOTH_INTEGRATOR;
@@ -134,7 +138,13 @@ bool App::handleEvent(const Window::Event& ev) {
 			camera_rotation_angle_ -= 0.05 * FW_PI;
 		else if (ev.key == FW_KEY_END)
 			camera_rotation_angle_ += 0.05 * FW_PI;
+
+		if(ev.key == FW_KEY_R)
+		{
+			ps_->reset();
+		}
 	}
+	
 
 	if (ev.type == Window::EventType_Mouse) {
 		if (ev.mouseDragging)
@@ -327,7 +337,8 @@ void App::render()
 	// Check for OpenGL errors.
 	GLContext::checkErrors();
 
-	common_ctrl_.message(sprintf("Home/End or drag mouse to rotate camera."), "instructions");
+	common_ctrl_.message(sprintf("Home/End or drag mouse to rotate camera.\nR to restart"), "instructions");
+	
 }
 
 void FW::init(void) {

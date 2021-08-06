@@ -1,9 +1,12 @@
 #include "particle_systems.hpp"
-
+#include "base/Random.hpp"
 #include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <numeric>
+
+
+
 
 using namespace std;
 using namespace FW;
@@ -23,16 +26,24 @@ namespace {
 
 	// force acting on particle at pos1 due to spring attached to pos2 at the other end
 	
-
-	
 	inline Vec3f fDrag(const Vec3f& v, float k) {
 		// YOUR CODE HERE (R2)
 		return -k * v;
 	}
 
+	float rand_uniform(float low, float hi) {
+		float abs = hi - low;
+		float f = (float)rand() / RAND_MAX;
+		f *= abs;
+		f += low;
+		return f;
+	}
+
 } // namespace
 
 void SimpleSystem::reset() {
+	timeDependent = false;
+	
 	current_state_ = State(1, Vec3f(0, radius_, 0));
 }
 
@@ -68,9 +79,11 @@ Lines SimpleSystem::getLines() {
 }
 
 void SpringSystem::reset() {
+	
 	const auto start_pos = Vec3f(0.1f, -0.5f, 0.0f);
 	const auto spring_k = 30.0f;
 	const auto rest_length = 0.5f;
+	timeDependent = false;
 	current_state_ = State(4);
 	// YOUR CODE HERE (R2)
 	// Set the initial state for a particle system with one particle fixed
@@ -128,7 +141,7 @@ void PendulumSystem::reset() {
 	
 	const auto start_point = Vec3f(0);
 	const auto end_point = Vec3f(0.05, -1.5, 0);
-	
+	timeDependent = false;
 	current_state_ = State(2 * n_);
 	springs_.clear();
 	// YOUR CODE HERE (R4)
@@ -216,6 +229,7 @@ Lines PendulumSystem::getLines() {
 void ClothSystem::reset() {
 	const auto spring_k = 300.0f;
 	const auto width = 1.5f, height = 1.5f; // width and height of the whole grid
+	timeDependent = false;
 	current_state_ = State(2 * x_*y_);
 	springs_.clear();
 	// YOUR CODE HERE (R5)
@@ -309,9 +323,7 @@ State ClothSystem::evalF(const State& state) const {
 
 	f[0] = FW::Vec3f();
 	f[1] = FW::Vec3f();
-
-	f[Pos(0,y_ - 1)] = FW::Vec3f();
-	f[Vel(0, y_ - 1)] = FW::Vec3f();
+	
 	
 	return f;
 }
@@ -344,6 +356,53 @@ Lines ClothSystem::getLines() {
 	}
 	return l;
 }
+
+State SprinklerSystem::evalF(const State& state) const
+{
+	const auto mass = 3.0f;
+	auto f = State(2 * n_);
+	
+
+	for (unsigned i = 0; i < n_; i++)
+	{
+		f[Pos(i)] = state[Vel(i)];
+		f[Vel(i)] = (fGravity(mass) * gravityMultiplier) / mass;
+	}
+
+	return f;
+}
+
+void SprinklerSystem::reset()
+{
+	Random r;
+	timeDependent = true;
+	time_ = std::vector<float>(n_);
+	current_state_ = State(2 * n_);
+	for(size_t i = 0 ; i < n_ ; i++)
+	{
+		current_state_[Pos(i)] = Vec3f(0,0,0);
+		current_state_[Vel(i)] = Vec3f(rand_uniform(-1, 1) * spread /2 , rand_uniform(0.2, 1) * spread * 2 , rand_uniform(-1, 1) * spread / 2) ;
+		time_[i] = 0;
+	}
+}
+
+Points SprinklerSystem::getPoints()
+{
+	auto p = Points(n_);
+	for (auto i = 0u; i < n_; ++i) {
+		p[i] = current_state_[i * 2];
+	}
+	return p;
+}
+
+void SprinklerSystem::resetParticle(int particleIndex)
+{
+	Random r;
+	current_state_[Pos(particleIndex)] = Vec3f(0, 0, 0);
+	current_state_[Vel(particleIndex)] = Vec3f(rand_uniform(-1, 1) * spread , rand_uniform(0.2, 1) * spread * 2, rand_uniform(-1, 1) * spread / 2);
+
+}
+
 State FluidSystem::evalF(const State&) const {
 	return State();
 }
