@@ -174,7 +174,7 @@ void rk4Step(ParticleSystem& ps, float step) {
 
 	for (size_t i = 0; i < currentState.size(); i++)
 	{
-		newState[i] = currentState[i] + (1.f/6.f) * (step) * (f0[i] + f1[i] * 2 + f2[i] * 2 + f3[i] * 2);
+		newState[i] = currentState[i] + (1.f/6.f) * (step) * (f0[i] + f1[i] * 2 + f2[i] * 2 + f3[i] );
 	}
 
 	ps.set_state(newState);
