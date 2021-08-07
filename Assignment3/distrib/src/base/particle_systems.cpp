@@ -4,8 +4,7 @@
 #include <cassert>
 #include <iostream>
 #include <numeric>
-
-
+#include <random>
 
 
 using namespace std;
@@ -32,12 +31,19 @@ namespace {
 	}
 
 	float rand_uniform(float low, float hi) {
-		float abs = hi - low;
-		float f = (float)rand() / RAND_MAX;
-		f *= abs;
-		f += low;
-		return f;
+		
+		std::random_device rnd_device;
+		std::mt19937 rnd_engine(rnd_device());
+		std::uniform_real_distribution<float> distribution(low, hi);
+		return distribution(rnd_engine);
 	}
+
+	inline Vec3f fWind(const int multiplier)
+	{
+		
+		return FW::Vec3f(rand_uniform(-1, 1) * multiplier, rand_uniform(-1.2, 1) * multiplier, rand_uniform(-0.5, 1) * multiplier);
+	}
+
 
 } // namespace
 
@@ -302,14 +308,19 @@ State ClothSystem::evalF(const State& state) const {
 	// This will be much like in R2 and R4.
 
 
-
 	
+	const Vec3f windForce = fWind(wind_force_multiplier);
 	for (int i = 0; i < x_; i++)
 	{
 		for (int j = 0; j < y_; j++)
 		{
 			f[Pos(i, j)] = state[Vel(i, j)];
 			f[Vel(i,j)] = (fGravity(mass) + fDrag(state[Vel(i,j)], drag_k)) / mass;
+			if(wind_force_toggle_)
+			{
+				
+				f[Vel(i, j)] += windForce / mass;
+			}
 		}
 	}
 
@@ -324,7 +335,8 @@ State ClothSystem::evalF(const State& state) const {
 	f[0] = FW::Vec3f();
 	f[1] = FW::Vec3f();
 	
-	
+	f[Pos(0, y_ - 1)] = FW::Vec3f();
+	f[Vel(0, y_ - 1)] = FW::Vec3f();
 	return f;
 }
 

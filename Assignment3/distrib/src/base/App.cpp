@@ -74,6 +74,7 @@ App::App(void)
 #endif
 	common_ctrl_.addSeparator();
 	common_ctrl_.addToggle(&shading_toggle_, FW_KEY_T, "Toggle cloth rendering mode (T)", &shading_mode_changed_);
+	common_ctrl_.addToggle(&wind_force_toggle_, FW_KEY_W, "Toggle wind force for cloth (W)", &wind_force_changed_);
 #ifdef COMPUTE_CLOTH_MODULE
 	common_ctrl_.addButton(&fireBullet, FW_KEY_SPACE, "EXTRA: Fire bullet from mouse position (SPACE)");
 #endif
@@ -133,6 +134,13 @@ bool App::handleEvent(const Window::Event& ev) {
 		shading_mode_changed_ = false;
 	}
 
+	if(wind_force_changed_)
+	{
+		cloth_system_.setWindForceToggle(wind_force_toggle_);
+		wind_force_changed_ = false;
+	}
+
+	
 	if (ev.type == Window::EventType_KeyDown) {
 		if (ev.key == FW_KEY_HOME)
 			camera_rotation_angle_ -= 0.05 * FW_PI;

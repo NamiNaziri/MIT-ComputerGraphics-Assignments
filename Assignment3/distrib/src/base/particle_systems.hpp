@@ -114,6 +114,7 @@ public:
 	Points					getPoints() override;
 	Lines					getLines() override;
 	FW::Vec2i				getSize() { return FW::Vec2i(x_, y_); }
+	void					setWindForceToggle(bool wind) { wind_force_toggle_ = wind; }
 	
 	inline int						Pos(int x , int y) const
 	{
@@ -137,6 +138,8 @@ public:
 private:
 	unsigned				x_, y_;
 	std::vector<Spring>		springs_;
+	bool					wind_force_toggle_ = false;
+	const int				wind_force_multiplier = 2;
 };
 
 

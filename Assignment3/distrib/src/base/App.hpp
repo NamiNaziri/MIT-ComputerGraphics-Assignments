@@ -65,6 +65,8 @@ private:
 
 	bool			shading_toggle_;
 	bool			shading_mode_changed_;
+	bool			wind_force_toggle_;
+	bool			wind_force_changed_;
 	bool			system_changed_;
 	bool			fireBullet = false;
 
