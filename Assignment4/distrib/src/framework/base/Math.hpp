@@ -217,7 +217,7 @@ public:
 template <class T, int L> class Vector : public VectorBase<T, L, Vector<T, L> >
 {
 public:
-    FW_CUDA_FUNC                    Vector      (void)                      { setZero(); }
+    FW_CUDA_FUNC                    Vector      (void)                      { this->setZero(); }
     FW_CUDA_FUNC                    Vector      (T a)                       { set(a); }
 
     FW_CUDA_FUNC    const T*        getPtr      (void) const                { return m_values; }
@@ -225,7 +225,7 @@ public:
     static FW_CUDA_FUNC Vector      fromPtr     (const T* ptr)              { Vector v; v.set(ptr); return v; }
 
     template <class V> FW_CUDA_FUNC Vector(const VectorBase<T, L, V>& v) { set(v); }
-    template <class V> FW_CUDA_FUNC Vector& operator=(const VectorBase<T, L, V>& v) { set(v); return *this; }
+    template <class V> FW_CUDA_FUNC Vector& operator=(const VectorBase<T, L, V>& v) { this->set(v); return *this; }
 
 private:
     T               m_values[L];
@@ -619,7 +619,7 @@ public:
 template <class T, int L> class Matrix : public MatrixBase<T, L, Matrix<T, L> >
 {
 public:
-    FW_CUDA_FUNC                    Matrix      (void)                      { setIdentity(); }
+    FW_CUDA_FUNC                    Matrix      (void)                      { this->setIdentity(); }
     FW_CUDA_FUNC    explicit        Matrix      (T a)                       { set(a); }
 
     FW_CUDA_FUNC    const T*        getPtr      (void) const                { return m_values; }

@@ -48,7 +48,7 @@ Vec3f RayTracer::traceRay(Ray& ray, float tmin, int bounces, float refr_index, H
 
 	// Write out the ray segment if visualizing (for debugging purposes)
 	if (debug_trace)
-		debug_rays.push_back(RaySegment(ray.origin, ray.direction.normalized()*min(100.0f,hit.t), hit.normal, debug_color));
+		debug_rays.push_back(RaySegment(ray.origin, ray.direction.normalized()*FW::min(100.0f,hit.t), hit.normal, debug_color));
 
 	// if the ray missed, we return the background color.
 	if (!intersect)
