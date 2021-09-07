@@ -1,0 +1,96 @@
+
+PerspectiveCamera {
+    center    -0.34519 .113242 1.55356
+    direction 0.049361 0.139598 -0.988977
+    up        0 1 0 
+    angle      26
+}
+
+Lights {
+    numLights 2
+    DirectionalLight {
+        direction 0.4 -0.8 -0.3
+	color 0.3 0.3 0.3
+    }
+    DirectionalLight {
+        direction -0.3 -1 -0.5
+	color 0.5 0.5 0.5
+    }
+}
+
+Background {
+    color 0.2 0 0.6 
+    ambientLight 0.2 0.2 0.2
+}
+
+Materials {
+    numMaterials 5
+    PhongMaterial {	
+        diffuseColor 0.15 0.9 0.3
+	specularColor 0 0 0
+	exponent 10
+    }
+    PhongMaterial {	
+        diffuseColor 0.79 0.66 0.44
+	specularColor 0.4 0.4 0.4
+	exponent 10
+    }
+    PhongMaterial {	
+        diffuseColor 1 .7 .7
+	specularColor .2 .2 .2
+	exponent 1000
+    }
+    PhongMaterial {	
+        diffuseColor .7 1 .7
+	specularColor .2 .2 .2
+	exponent 1000
+    }
+    PhongMaterial {	
+        diffuseColor .7 .7 1
+	specularColor .2 .2 .2
+	exponent 1000
+    }
+}
+
+Group {
+    numObjects 5
+    MaterialIndex 1
+    Transform {
+        Translate -.1 .2 -.2
+        Scale  .15 .15 .15
+        TriangleMesh {
+            obj_file cube.obj
+        }
+    }
+    MaterialIndex 2
+    Transform {
+        Translate -.4 -.01 -.1
+        YRotate -20
+        TriangleMesh {
+            obj_file bunny_1k.obj
+        }
+    }
+    MaterialIndex 3
+    Transform {
+        Translate -.1 .25 -.2
+        YRotate 40
+        TriangleMesh {
+            obj_file bunny_1k.obj
+        }
+    }
+    MaterialIndex 4
+    Transform {
+        Translate -.05 .12 .2
+	YRotate -10
+        XRotate 80
+        TriangleMesh {
+            obj_file bunny_1k.obj
+        }
+    }
+    MaterialIndex 0
+    Plane {
+	normal 0.0 1 0.0
+        offset 0.06
+    }
+}
+
