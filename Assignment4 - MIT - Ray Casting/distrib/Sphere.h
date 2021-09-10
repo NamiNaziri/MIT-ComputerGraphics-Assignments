@@ -28,12 +28,24 @@ public:
 	~Sphere(){}
 
 	virtual bool intersect( const Ray& r , Hit& h , float tmin){
+
+		const Vector3f NewOrgin = r.getOrigin() - this->center;
+
+		
 		const float a = Vector3f::dot(r.getDirection(), r.getDirection());
-		const float b = 2 * Vector3f::dot( r.getDirection(), r.getOrigin());
-		const float c = Vector3f::dot(r.getOrigin(), r.getOrigin()) - (radius * radius);
-		const float discriminant = sqrt (((b * b) - 4 * a * c) * ((b * b) - 4 * a * c));
+		const float b = 2 * Vector3f::dot( r.getDirection(), NewOrgin);
+		const float c = Vector3f::dot(NewOrgin, NewOrgin) - (radius * radius);
+		const float discriminantSquared = ((b * b) - (4 * a * c)) ;
+		if (discriminantSquared < 0)
+		{
+			return false;
+		}
+		//cout << "Hey HEre " << endl;
+		const float discriminant = sqrt (discriminantSquared);
+		
+		
 		const float t1 = (-b + discriminant) / (2 * a);
-		const float t2 = (-b - discriminant) / (2);
+		const float t2 = (-b - discriminant) / (2 * a);
 		float finalT;
 		if(t1 > 0 && t2 > 0)
 		{

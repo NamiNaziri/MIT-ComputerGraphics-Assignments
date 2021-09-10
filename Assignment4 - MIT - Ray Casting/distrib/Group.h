@@ -37,11 +37,16 @@ public:
   }
 
   virtual bool intersect( const Ray& r , Hit& h , float tmin ) {
-  		for(int i = 0 ; i < objectsNum ; i++)
-  		{
-			ObjectList[i]->intersect(r,h, tmin);
-  		}
-		return false;
+  		
+	bool isHitted = false;
+  	for(int i = 0 ; i < objectsNum ; i++)
+  	{
+		if(ObjectList[i]->intersect(r,h, tmin))
+		{
+			isHitted = true;
+		}
+  	}
+	return isHitted;
    }
 	
   void addObject( int index , Object3D* obj ){

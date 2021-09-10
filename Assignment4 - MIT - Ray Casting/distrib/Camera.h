@@ -39,8 +39,8 @@ public:
 	virtual Ray generateRay( const Vector2f& point){
 
 		float D = 1 / tanf(FOV / 2);
-		Vector3f SamplePoint = Vector3f((point.x() * horizontal.x()), (point.y() * up.y()), D * direction.z());
-		return Ray(this->center,SamplePoint - this->center);
+		const Vector3f SamplePoint = point.x() * horizontal + point.y() * up + D * direction;
+		return Ray(this->center,(SamplePoint).normalized());
 	}
 
 	virtual float getTMin() const { 
