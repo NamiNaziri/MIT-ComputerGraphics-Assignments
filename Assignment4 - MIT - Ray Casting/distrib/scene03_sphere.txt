@@ -15,7 +15,7 @@ Lights {
 
 Background {
     color 0.2 0 0.6 
-    ambientLight 0 0 0 
+    ambientLight 0.5 0.5 0.5 
 }
 
 Materials {

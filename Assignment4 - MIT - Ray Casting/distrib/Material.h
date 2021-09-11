@@ -33,7 +33,11 @@ public:
   Vector3f Shade( const Ray& ray, const Hit& hit,
                   const Vector3f& dirToLight, const Vector3f& lightColor ) {
 
-    return Vector3f(1,1,1) ; 
+ 	//Diffuse shading
+      Vector3f DiffuseColor = lightColor * max( Vector3f::dot(hit.getNormal(), dirToLight), 0.f);
+
+ 	
+    return DiffuseColor;
 		
   }
 

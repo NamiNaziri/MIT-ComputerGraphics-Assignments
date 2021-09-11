@@ -60,12 +60,26 @@ int main( int argc, char* argv[] )
 			bool isHitted = group->intersect(ray, hit, camera->getTMin());
 			if (isHitted)
 			{
-				pixelColor = Vector3f(1, 1, 1);
+				Vector3f ambientColor = sceneParser.getAmbientLight();
+				Vector3f shadingColor = Vector3f::ZERO;
+				//Lighting 
+				for(int i = 0 ; i < sceneParser.getNumLights() ; i++)
+				{
+					Vector3f dir;
+					Vector3f col;
+					float distanceToLight;
+					sceneParser.getLight(i)->getIllumination(ray.pointAtParameter(hit.getT()), dir, col, distanceToLight);
+
+					
+					shadingColor += hit.getMaterial()->Shade(ray, hit, dir, col);
+				}
+				
+				pixelColor = (ambientColor + shadingColor) * hit.getMaterial()->getDiffuseColor();
 				image.SetPixel(i , j , pixelColor);
 			}
 			else
 			{
-				pixelColor = Vector3f(1, 0, 1);
+				pixelColor = sceneParser.getAmbientLight() * sceneParser.getBackgroundColor();
 				image.SetPixel(i , j, pixelColor);
 			}
 			
