@@ -28,7 +28,7 @@ int main( int argc, char* argv[] )
 	  std::cout << "Argument " << argNum << " is: " << argv[argNum] << std::endl;
 	}
 
-
+	bool debugDepthMode = false;
 	// First, parse the scene using SceneParser.
 	// Then loop over each pixel in the image, shooting a ray
 	// through that pixel and finding its intersection with
@@ -41,6 +41,8 @@ int main( int argc, char* argv[] )
 
 	Group* group = sceneParser.getGroup();
 	Camera* camera = sceneParser.getCamera();
+
+	
 	
 	for(int i = 0 ; i < w ;i++)
 	{
@@ -62,6 +64,7 @@ int main( int argc, char* argv[] )
 			{
 				Vector3f ambientColor = sceneParser.getAmbientLight();
 				Vector3f shadingColor = Vector3f::ZERO;
+				
 				//Lighting 
 				for(int i = 0 ; i < sceneParser.getNumLights() ; i++)
 				{
@@ -73,13 +76,23 @@ int main( int argc, char* argv[] )
 					
 					shadingColor += hit.getMaterial()->Shade(ray, hit, dir, col);
 				}
+				if(debugDepthMode)
+				{
+					float c = (hit.getT() / 10);
+					if (c > 1)
+						c = 0;
+					pixelColor = Vector3f(c, c, c);
+				}else
+				{
+					
+					pixelColor = (ambientColor * hit.getMaterial()->getDiffuseColor() + shadingColor );
+				}
 				
-				pixelColor = (ambientColor + shadingColor) * hit.getMaterial()->getDiffuseColor();
 				image.SetPixel(i , j , pixelColor);
 			}
 			else
 			{
-				pixelColor = sceneParser.getAmbientLight() * sceneParser.getBackgroundColor();
+				pixelColor = sceneParser.getBackgroundColor();
 				image.SetPixel(i , j, pixelColor);
 			}
 			

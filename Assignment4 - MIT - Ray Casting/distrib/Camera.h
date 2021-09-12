@@ -30,9 +30,9 @@ class PerspectiveCamera: public Camera
 public:
 	PerspectiveCamera(const Vector3f& center, const Vector3f& direction,const Vector3f& up , float angle){
 		this->center = center;
-		this->direction = direction;
-		this->horizontal = Vector3f::cross(direction, up);
-		this->up = Vector3f::cross(horizontal, direction);
+		this->direction = direction.normalized();
+		this->horizontal = Vector3f::cross(direction.normalized(), up.normalized()).normalized();
+		this->up = Vector3f::cross(horizontal.normalized(), direction.normalized()).normalized();
 		this->FOV = angle;
 	}
 

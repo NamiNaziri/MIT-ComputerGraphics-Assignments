@@ -10,4 +10,4 @@ rm *.bmp
 ./a4.exe -input scene06_bunny_1k.txt  -size 200 200 -output 6.bmp
 ./a4.exe -input scene07_shine.txt  -size 200 200 -output 7.bmp
 ./a4.exe -input scene08_c.txt -size 200 200 -output 8.bmp
-./a4.exe -input scene09_s.txt -size 200 200 -output 9.bmp
+./a4.exe -input scene09_s.txt -size 1500 1500 -output 9.bmp

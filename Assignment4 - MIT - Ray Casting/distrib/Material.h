@@ -33,11 +33,27 @@ public:
   Vector3f Shade( const Ray& ray, const Hit& hit,
                   const Vector3f& dirToLight, const Vector3f& lightColor ) {
 
- 	//Diffuse shading
-      Vector3f DiffuseColor = lightColor * max( Vector3f::dot(hit.getNormal(), dirToLight), 0.f);
 
+      Vector3f Kd = diffuseColor;
+ 	if(t.valid())
+ 	{
+ 		if(hit.hasTex)
+ 		{
+            Kd = t(hit.texCoord.x(), hit.texCoord.y());
+            diffuseColor = Kd;
+ 		}
+ 	}
+
+ 	//Diffuse shading
+      Vector3f DiffuseColor = lightColor * max( Vector3f::dot(hit.getNormal(), dirToLight), 0.f) * Kd;
+      
+ 	//Specular 
+      const Vector3f ReflectedRay = (ray.getDirection()) + 2 * Vector3f::dot(-ray.getDirection(), hit.getNormal()) * hit.getNormal();
+
+      float Cs = powf(max(Vector3f::dot(dirToLight, ReflectedRay),0.f), shininess) ;
+      const Vector3f SpecularColor = lightColor * Cs * specularColor;
  	
-    return DiffuseColor;
+    return DiffuseColor + SpecularColor;
 		
   }
 

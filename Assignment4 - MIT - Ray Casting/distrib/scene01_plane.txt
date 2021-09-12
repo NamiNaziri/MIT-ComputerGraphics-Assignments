@@ -15,7 +15,7 @@ Lights {
 }
 
 Background {
-    color 0 0 0 
+    color 1 1 0 
     ambientLight 0.1 0.1 0.1 
 }
 
